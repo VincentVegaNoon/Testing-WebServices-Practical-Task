@@ -1,0 +1,12 @@
+{
+  "name": "restful-booker-api-tests",
+  "version": "1.0.0",
+  "description": "API tests for restful-booker using native fetch",
+  "main": "api.test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test api.test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

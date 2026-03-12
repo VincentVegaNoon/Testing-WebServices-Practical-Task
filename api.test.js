@@ -14,6 +14,7 @@ test("Restful Booker API", async (t) => {
     });
 
     assert.strictEqual(response.status, 200, "Status code should be 200");
+    assert.ok(response.headers.get("content-type").includes("application/json"), "Header Content-Type should be JSON");
     assert.ok(data.token, "Token should be present");
 
     token = data.token;
@@ -26,6 +27,8 @@ test("Restful Booker API", async (t) => {
     });
 
     assert.strictEqual(response.status, 200, "Status code should be 200");
+    assert.ok(response.headers.get("content-type").includes("application/json"), "Header Content-Type should be JSON");
+    assert.ok(data.bookingid, "Booking ID should be returned in body");
     assert.strictEqual(data.booking.firstname, newBookingData.firstname, "First name match");
 
     bookingId = data.bookingid;
@@ -35,6 +38,7 @@ test("Restful Booker API", async (t) => {
     const { response, data } = await request(`/booking/${bookingId}`);
 
     assert.strictEqual(response.status, 200, "Status code should be 200");
+    assert.ok(response.headers.get("content-type").includes("application/json"), "Header Content-Type should be JSON");
     assert.strictEqual(data.firstname, newBookingData.firstname, "Fetched first name match");
   });
 
@@ -49,7 +53,8 @@ test("Restful Booker API", async (t) => {
     );
 
     assert.strictEqual(response.status, 200, "Status code should be 200");
-    assert.strictEqual(data.lastname, updatedBookingData.lastname, "Last name updated");
+    assert.ok(response.headers.get("content-type").includes("application/json"), "Header Content-Type should be JSON");
+    assert.strictEqual(data.totalprice, updatedBookingData.totalprice, "Total price should be updated in body");
   });
 
   await t.test("Remove booking", async () => {
@@ -62,7 +67,7 @@ test("Restful Booker API", async (t) => {
     );
 
     assert.strictEqual(response.status, 201, "Status code should be 201 for successful deletion");
-
+    assert.ok(response.headers.get("content-type").includes("text/plain"), "Header Content-Type should be text/plain");
     const { response: verifyResponse } = await request(`/booking/${bookingId}`);
     assert.strictEqual(verifyResponse.status, 404, "Status code should be 404");
   });
